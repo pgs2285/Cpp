@@ -51,6 +51,7 @@ int main(){
     float num1 = 0.231689453125f; 
     unsigned int num0;
     memcpy(&num0, &num1, sizeof(float)); // memcpy는 메모리를 복사하는 함수. memcpy(복사할 메모리 주소, 복사될 메모리 주소, 복사할 메모리 크기)
+    // 등호로 대입하면 0을 출력할거니 부동소수점 -> int 를 보기위해 memcpy사용
     cout << num0 << endl;
     cout << num1 << endl;
     // num 0 의 output은 1047347200가 되는데 이는 부동소수점으로 표현된 전체 비트를 int형으로 집어넣은것. 즉 32비트가 찬 int형이 되어버림
@@ -69,11 +70,31 @@ int main(){
     else
         cout << "false" << endl;
 
-    //epslion은 0보다 큰 가장작은수이다. 하지만 오차값은 누적되니 완벽한 방법은 아님
+    //epslion은 1보다 큰 가장 작은수에서 1을 뺀값. 즉 부동소수점에서 1을 표기하면
+    // 부동소수점 1/       0/01111111/00000000000000000000000인데 이거보다 가장 작은수를 더하면 0/01111111/00000000000000000000001
+    // 여기서 1을 뺀값이 epsilon
+    cout.precision(64);//총 범위(소수부분 정수부분 합 64자리)
+    cout << "float의 최대값" << FLT_MAX << endl;
+    //부동소수점의 지수부분이 전부 0이라면 무한대, 부호부분을 제외한 부분이 모두 1이라면 nan(Not a Number)이 뜨는등 몇개의 예외사항이 있음
+
+    cout << FLT_MIN << endl; // 0 00000001 00000000000000000000000 2의 -126승
+    cout << FLT_TRUE_MIN << endl; // 0 00000000 00000000000000000000001 예외사항 2의 -149승
+    //정밀한 값 계산에는 float사용 금지
+
+    char chr = 'a'; // '' = 단일 문자, "" = 문자열 (단어 개수와 상관 X)
+    cout << "\"" << endl; // \는 이스케이프 문자로 "를 출력하기 위해 사용
+
+    cout << true <<endl; // 1
+    //만약 true false를 숫자말고 형태로 출력하고 싶다면
+    cout.setf(ios_base::boolalpha); // boolalpha는 bool형을 true false로 출력하게 해주는 함수
+    cout << true <<endl; // true
+    
 }
 
 /*
-out put
+output :
+
+
 Size of Integer: 4
 Size of LongNum: 8
 Size of Pointer: 8
@@ -91,6 +112,17 @@ numeric limit of int32 2147483647
 numeric limit of int64 9223372036854775807
 numeric limit of long 9223372036854775807
 numeric limit of short 32767
+-------------------구분선----------------------
+1047347200
+0.231689
+== 사용하기:false
+epsilon 사용하기:true
+float의 최대값340282346638528859811704183484516925440
+1.175494350822287507968736537222245677818665556772087521508751706e-38
+1.401298464324817070923729583289916131280261941876515771757068284e-45
+"
+1
+true
 
 
 */
