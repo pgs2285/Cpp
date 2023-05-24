@@ -3,7 +3,8 @@
 
 using namespace std;
 
-class Player{
+class Player{ // 같이 링크된 다른 파일에서 클래스를 재정의 할때는 의미상 동일해야한다.
+// 정의된 내용이 다르면 undefined behaviour가 뜬다
     private:
         string _name;
     public:
