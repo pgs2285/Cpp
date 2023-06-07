@@ -3,10 +3,16 @@
 using namespace std;
 
 class Vector{
-public:
+
+private:
     float x;
     float y;
     float z;
+public:
+    Vector(float x, float y, float z): x(x), y(y), z(z){
+        
+    }
+
     Vector operator+(){
         return *this;
     }
@@ -58,17 +64,23 @@ public:
         return *this;
     }
     Vector& operator--(int){ // 후위연산자의 규칙같은거임
-        Vector tmp = *this;
+        Vector& tmp = *this;
         --(*this);
         // cout << "감소연산자 반환주소" <<this << endl;
         return tmp;
     }
     
-
+    friend Vector operator*(float num, Vector& v1);
     void printVec(){
         cout << "X : " << x << " Y : " << y << " Z : " << z << endl;
     }
 };
+
+Vector operator*(float num, Vector& v1){
+    return Vector{num*v1.x, num*v1.y, num*v1.z}; // x,y,z 가 private로 등록되어있어 접근할 수 없다.
+    // 클래스 내부에 friend로 프로토타입선언 해주면 접근 가능하다.
+}
+
 
 int main(){
     Vector v0 = {1,2,3};
@@ -80,6 +92,7 @@ int main(){
     Vector v4 = nums.operator+(); // + 연산자 오버로딩(단항)
     Vector v5 = v0.operator-(v1); // - 연산자 오버로딩(이항)
     Vector v6 = v0.operator*(3.0f); // * 연산자 오버로딩 (이항, float 받아서)
+
     Vector v7 = v0.operator*(nums); // * 연산자 오버로딩 (이항, vec받아서)
     Vector v8 = v0.operator/(v1);// / 연산자 오버로딩 (이항, vec받아서)
     Vector v9 = v0.operator++(); // ++연산자 오버로딩 (단항, 후위연산자) 자기자신이 직접 올라감
@@ -87,7 +100,7 @@ int main(){
 
     Vector v11 = v0 + v1; // 이제 이런식으로 직접 식에 넣는거도 가능하다.
     Vector v12 = ++v0;
-
+    Vector v13 = 3.0f * v1; // 이건 전역변수함수를 호출한거. (Vector 클래스 내부에서 제작한 함수가 아님)
     // Vector v13 = ++v12;
 
     // v2.printVec(); //  + 
@@ -102,7 +115,7 @@ int main(){
     // // v12.printVec();
     // // v13.printVec();
     // v12.printVec();
-
+    v13.printVec();
     cout << &v12 << endl;
     cout << &v0 << endl;
     return 0;
