@@ -1,45 +1,56 @@
 #include <iostream>
+#include <cstring>
+#include <compare>
+
 
 using namespace std;
 
-class VectorF;
-
-class VectorI{
-    friend class VectorF; // VectorF에게 private 상황을 공유해준다.
-private:
-    int x;
-    int y;
-    int z;
-
-public:
-    friend VectorF operator+(const VectorI& v0, const VectorF& v1);
-    VectorI(int x, int y, int z) : x(x),y(y),z(z){
+class String{
+    private:
+        char* _chars;   
         
-    }
 
+    public:
+        String(const char* chars) : _chars(new char [strlen(chars) + 1]){ 
+            strcpy(_chars, chars);
+        }
 
+        bool operator==(const String& s) const{ 
+            return strcmp(s._chars, _chars) == 0;
+        }
+
+        bool operator!=(const String& s) const{
+            return !(*this == s);
+        }
+
+        bool operator<(const String& s)const {
+            return strcmp(s._chars, _chars) > 0;
+        }
+        bool operator>=(const String& s) const{
+            return!(*(this) < s);
+        }
+
+        // strong_ordering operator<=>(const String& s) const{
+        //     int result = strcmp(s._chars, _chars);
+        //     if(result < 0){
+        //         return strong_ordering::greater;
+        //     }else if(result > 0){
+        //         return strong_ordering::less;
+        //     }
+        //     return strong_ordering::equal;
+        // } //spaceship ordering  c++17버전부터 사용가능
+
+        void print(){
+            cout << _chars << endl;
+        }
 };
-
-class VectorF{
-private:
-    float x;
-    float y;
-    float z;
-
-public:
-    VectorF(float x, float y, float z) : x(x),y(y),z(z){
-
-    }
-
-    friend VectorF operator+(const VectorI& v0, const VectorF& v1);
-};
-
-VectorF operator+(const VectorI& v0, const VectorF& v1){ // 교환법칙 성립시키기 위해서
-    return VectorF{v1.x + v0.x, v1.y + v0.y, v1.z + v0.z};
-}
 
 int main(){
-
+    String str1("abc");
+    String str2("bc");
+    if(str1 != str2) cout << "equals" << endl;
+    if(str1 < str2) cout << "bigger" << endl;
+    if(str1 >= str2) cout << "smaller" << endl;
 
     return 0;
 }
