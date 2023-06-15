@@ -40,6 +40,8 @@ static void func(){
     static Player player3("3Player");
 }
 
+
+
 int main(){
 
     Player player4("4Player");

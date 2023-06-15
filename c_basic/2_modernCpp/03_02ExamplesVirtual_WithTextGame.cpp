@@ -40,6 +40,8 @@ class Monster : public Character{
     using Character::Character; // 위에서 : 를 이용한 초기화와 같다
     virtual void damaged(int power) override{
         // _health -= power;
+        //오버라이딩 해주는것은 매개변수의 개수가 동일해야함
+        
         Character::damaged(power); // 위 라인과 동일한 의미
         cout <<"끼약" << endl;
     }
