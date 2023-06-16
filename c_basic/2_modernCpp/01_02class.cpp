@@ -51,7 +51,7 @@ int main(){
         Player player5("5Player"); // 블록스코프를 벗어날때 자동해제
     }
     delete player2;
-    // 굳이 파괴하지 않아도 종료될때 자동으로 파괴된다
+    // 파괴하지 않아도 종료될때 자동으로 파괴된다
     
     String str("abc");
     str.print();
