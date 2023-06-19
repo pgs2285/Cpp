@@ -50,6 +50,8 @@ class Monster : public Character{
 int main(){
     Monster monster(10,20);
     Player player(100,20);
+    Character ch = Player(10,20);
+    ch.attack(player);
     player.attack(monster);
     monster.attack(player);
 }
