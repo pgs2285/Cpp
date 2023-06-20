@@ -55,7 +55,10 @@ class Parent{
         Parent(int id) : id(id){
 
         }
-        virtual ~Parent();
+        void func(){
+            cout <<"FUNC" << endl;
+        }
+        virtual ~Parent(){};
 };
 
 class Child:public Parent{
@@ -132,7 +135,42 @@ int main(){
 
     //3.dynamic cast :  자식 클래스의 포인터를 부모 클래스의 포인터로 변경했다가 다시 자식 클래스의 포인터로 변경하는 경우(동적 형변환)에 사용한다
     Parent* p = new Child(10); // 여기서 child의 func를 호출하고 싶으면 dynamic_cast사용(foo함수 참조)
+    // 위 코드는 업캐스팅 (자식의 메소드는 사용할 수 없지만 공통된 부분은 호출 가능하며, 가독성등을 높일수 있다. 공통되있는게 있으면 자식호출)
+    //만약 공통된개 아니면 다시 다운캐스팅을 해서 실행해야하는데 예시는 foo안에 있다 (dynamic_cast 이용)
+    // dynamic cast = 다형성을 가져야함 (virtual 이 필수다.)
     foo(p);
+
+
+    //4. reinterpret cast : 비트배열을 재해석할때 사용.
+    union ID {
+        int integer;
+        char* chars;
+    };
+    ID id;
+    id.integer = 10;
+    int* pp = reinterpret_cast<int*>(&id); // union(내부 변수를 하나의 메모리로 관리)을 integer로써 인식을하겠다
+    cout << *pp << endl;
+    // 로우레벨 디바이스 하드코딩 할때도 가끔 사용 reinterpret_cast<Device*>(0x1234); 
+    int testInt = 10;
+    float* testF = reinterpret_cast<float*>(&testInt);
+    cout << *testF << endl; // integer의 읽는법을 변경함(기본 Integer를 부동소수점 읽는식으로 변환)
+
+    //5. c style casting, functional style casting
+    enum Type{
+        A,B,C
+    };
+    int num0 = (int)Type::A; // c-style casting
+    int num1 = int(Type::B); // functional-style casting
+
+    // c-style cast는 위험하다. 일단 많은 역할을 한다 예를들어
+    float& f = (float&)testInt; // reinterpret cast 역할
+    const int& jj = testInt;
+    int& k = (int &)jj; // const cast 역할
+    i = (int)Type::A; // static cast 역할등
+    //c style cast는 위 c++에서의 세가지 캐스트로 나누어져 있다. 일단 코드상 가독성 문제가 하나있다. 어떤 캐스트 사용,의도가 명확하지 않다.(상수성을 제거하기위함이라는등)
+    //const_cast<int&>... 는 명확 협업등에서 혼란 야기 최소화.
+
+    
 
     return 0;
     
