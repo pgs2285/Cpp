@@ -15,9 +15,49 @@ double divideWithThrow(double d, double v)
 }
 void terFunc()
 {
-    cout << "TerFunc" << endl;
-    exit(123); // 정상종료
+    throw "EXCEPTION";
+    // cout << "TerFunc" << endl;
+    // exit(123); // 정상종료
 }
+
+class Parent{
+
+};
+
+class Child : public Parent{
+
+}; // try-catch 예시를 위한 임시 클래스
+
+class customException : public std::exception{
+    public:
+    // virtual const char* what() const override
+    // {
+    //     return "custom";
+    // }
+};
+void tryCatchTest(int v = 0)try{ // 함수 try 함수 전체를 try로 묶은것과 결과값이 동일하다
+    if(v==0) throw Child(); // 0일시 child를 던진다.
+}
+catch(std::logic_error& e){
+
+}
+
+void func_n () noexcept {
+    throw 1;
+}
+
+class RAII{
+    public:
+        int* i;
+        RAII(){
+            i = new int;
+        }
+
+        ~RAII(){
+            delete i;
+        }
+};
+
 int main()
 {
     // 전통적인 예외처리
@@ -45,11 +85,51 @@ int main()
         cout << 1 << endl; // 현재는 string형이므로 위에서 잡힌다.
     }
     // 만약 catch에 알맞은 형식이 없다면 catch가 되지않아서 강제종료
-    
+
+    try{
+        tryCatchTest();
+    // }catch(Parent& parent){
+    //     cout << "Parent" << endl;
+    // }catch(Child&){
+    //     cout << "Child" << endl;
+    // }
+    }
+    catch(std::exception& e){
+        cout << e.what() << endl; // (...) 과 같은기능. 근데 오류메시지를 잡을수 있다. virtual 함수라 구현해주자.
+    }
+    // output : parent, try-catch는 위처럼 클래스 인스턴스를 catch가능하다. try-catch는 위에서 부터 검사하므로 여기선 parent에 catch 된다
 
 
+    //RAII;
+    try{
+        
+        int* i = new int;
+        terFunc(); // throw으로 try-catch에 잡혀서 i에 더이상 접근할 수 없지만 메모리에서 해제되진 않았다.
+        //이럴떄 사용하는게 RAII이다. (스코프를 벗어나면 소멸자를 호출하는 매커니즘을 이용해 리소스를 해제해주는 매커니즘이 RAII이다. 뿐만 아니라 DB connection 을 해제할때등 사용)
+        //위에서 RAII클래스 하나 선언
+        RAII raii; // 여기는 블록지역변수라 이 블록을 탈출하면 자동으로 소멸자가 실행되므로 해제된다. 
+        // 클래스 구현하지 않아도 unique_ptr사용하면 된다
+        std::unique_ptr<int> i; // 블럭을 벗어나면 소멸자 호출하며 해제
+        //std::unique_ptr<Test>test(new Test()); 로 클래스 선언 및 해제가 가능하다
 
+    }catch(const char* e){
+        // 여기에 i를 상위 스코프에 선언하고 이부분에 delete i 를 해줄순 있지만 모든 catch마다 해줘야하고 또한 예상치못한 상황도 발생 가능
+        cout << e << endl;
+    }
 
+    // noexcept 컴파일러 최적화에 사용한레후
+    // 형식은  :  리턴형 함수명 (매개변수) noexcept {} 이다
+    // 과거에는 : 리턴형 함수명 (매개변수) throw(int,float,std::exception) 처럼 발생할수 있는 exception을 안에 채워줬다.
+    // noexcept(true)  = exception이 난다, noexcept(false) = exception이 안난다. 기본적인 함수들은 noexcept(false) 이다.
+    // 만약 noexcept 를했는데 throw를 한다면 terminate를 호출한다. (try catch에 넣어줘도.)
+    //noexcept(noexcept(func2)) ;; func2의 noexcept성질을 그대로 이어감
+
+    try{
+        func_n(); // func_n은 noexcept가 되어있어 try안에 있지만 강제종료가 된다. 내부 &&가 가능하다
+    }catch(...){
+        cout <<"hello" << endl;
+    }
 
     return 0;
 }
+ // 함수자체를 try block으로 지정해줄 수 있다.
