@@ -95,7 +95,7 @@ int main()
     // }
     }
     catch(std::exception& e){
-        cout << e.what() << endl; // (...) 과 같은기능. 근데 오류메시지를 잡을수 있다. virtual 함수라 구현해주자.
+        cout << e.what() << endl; // (...) 과 같은기능. 근데 오류메시지를 잡을수 있다. virtual 함수라 구현해주자.( throw 로 잡아온거 what하면 문구뜸)
     }
     // output : parent, try-catch는 위처럼 클래스 인스턴스를 catch가능하다. try-catch는 위에서 부터 검사하므로 여기선 parent에 catch 된다
 
