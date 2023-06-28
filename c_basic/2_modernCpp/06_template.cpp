@@ -8,6 +8,7 @@ template<typename T> //typename 대신에 class라고 작성해도 된다
 //generic프로그램을 만드는데 도움이된다
 void Swap(T& x, T& y) 
 {
+    cout << "General" << endl;
     T tmp = x;
     x = y;
     y = tmp; 
@@ -77,11 +78,57 @@ class Queue{ // 템플릿을 이용한 Queue 간단구현
     
 };
 
-template <typename T>
+template <typename T> 
 T& Queue<T> :: top() // 코드 분할
 {
         return _items[_size - 1];
 }
+
+//템플릿 특수화 (specialize) : 특정 타입에 특정한 효과를 주고싶다면
+class Test{
+
+};
+template<> // 암시적으로 밑에 void Swap(Test& x, Test& y) 만 해주어도 된다
+void Swap<Test>(Test& x, Test& y) // 특수화를 하면 Swap<double>만 호출하면 된다.
+{
+    cout << "Specialize" << endl;
+  
+}
+
+// 클래스 템플릿 특수화
+template <typename T, typename S>
+class Test1{
+    public:
+    void func()
+    {
+        cout << "General" << endl;
+    }
+};
+
+
+template <> // 특수화를 하면 특수화된 클래스가가 호출된다.
+class Test1 <float, int>{
+    public:
+    void func()
+    {
+        cout << "Specialize" << endl;
+    }
+};
+
+template<typename T>
+class Test1<T,T>{ // 부분특수화
+    public:
+    void func()
+    {
+        cout << "Partial Specialize" << endl;
+    }
+};
+    
+template <>
+void Queue<float>::push(float item){
+    cout << "클래스내 함수 부분 특수화" << endl;
+}
+
 
 int main(){ 
     int x(10), y(20);
@@ -119,7 +166,19 @@ int main(){
     {
         cout << e.what() << endl; // throw zocl gn cnffur
     }
-
     // 두종류 모두 잘되는걸 볼수 있다. 물론 char, float 다 됨.
+    Test t0, t1;
+    Swap(t0,t1); // 특수화 되어있어 특수화된 함수가 호출됨
+    int a,b;
+    Swap<int>(a,b); // int형은 특수화를 안해줬기 때문에 일반함수가 호출됨
 
+    Test1<int, float> t2; 
+    Test1<float, int> t3;
+    Test1<int, int> t4;
+    t2.func(); // 일반 클래스가 호출됨
+    t3.func(); // 특수화된 클래스가 호출됨
+    t4.func(); // 부분 특수화된 클래스가 호출됨
+
+    Queue<float> q100;
+    q100.push(10.0f); // 클래스 내 함수 부분 특수화가 호출됨
 }
