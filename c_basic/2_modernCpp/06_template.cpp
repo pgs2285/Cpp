@@ -1,7 +1,9 @@
 #include <iostream>
+#include "swap.h"
+using std::cout;
+using std::endl;
 
-using namespace std;
-
+#include <vector>
 
 template<typename T> //typename 대신에 class라고 작성해도 된다
 // 또한 매개변수처럼 여러개 작성가능 template<typenameT, typename S>
@@ -129,6 +131,11 @@ void Queue<float>::push(float item){
     cout << "클래스내 함수 부분 특수화" << endl;
 }
 
+// template
+// void std::swap<int>(int&, int&); // 템플릿 구체화 (꺽새괄호가 없음)
+//사용자 정의함수를 include할때 사용한다.
+//함수들은 include할때 바로 사용할 수 있지만, template는 include만으로는 사용 X 이므로 구체화가 필요하다.
+//예시는 swap.h참고
 
 int main(){ 
     int x(10), y(20);
@@ -142,7 +149,7 @@ int main(){
     //(템플릿의 컴파일 타임의 추론에 의해 알아서 넘어감) 물론 func<4, float>(arr) 이 정석 
 
     Queue<int> q_i;
-    Queue<string> q_s; // 변수형마다 구현해줄 필요없이 템플릿 사용하면 된다.
+    Queue<std::string> q_s; // 변수형마다 구현해줄 필요없이 템플릿 사용하면 된다.
     q_i.push(10);
     q_i.push(20);
     q_i.push(30);
@@ -181,4 +188,11 @@ int main(){
 
     Queue<float> q100;
     q100.push(10.0f); // 클래스 내 함수 부분 특수화가 호출됨
+
+    swap<int>(a,b); // 사용자 헤더파일 swap<int>(a,b)가 호출됨
+    // 만약 헤더파일에 사용할 타입마다 구체화를 시켜놓지 않으면 호출불가 
+    //그래서 보통 템플릿은 헤더파일에 모두 구현해 놓는걸 선호한다.
+    float c,d;
+    swap<float>(c,d); 
+
 }
