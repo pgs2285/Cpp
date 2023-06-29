@@ -133,9 +133,11 @@ void Queue<float>::push(float item){
 
 // template
 // void std::swap<int>(int&, int&); // 템플릿 구체화 (꺽새괄호가 없음)
-//사용자 정의함수를 include할때 사용한다.
-//함수들은 include할때 바로 사용할 수 있지만, template는 include만으로는 사용 X 이므로 구체화가 필요하다.
+//함수들은 include할때 바로 사용할 수 있지만, template는 include만으로는 사용 X 구체화가 필요하다.
+// 그 이유는 disassemble해보면 템플릿 함수 자체만으로는 컴파일 되지않고 구체화 (밑에서 사용해야) 컴파일 되기때문
+// 때문에 아무레 헤더파일에 만들고 해도 목적코드로 변환하는 과정에서 포함되지 않으므로 구체적 명시화가 필요.
 //예시는 swap.h참고
+//구체설명 https://hwan-shell.tistory.com/253
 
 int main(){ 
     int x(10), y(20);
