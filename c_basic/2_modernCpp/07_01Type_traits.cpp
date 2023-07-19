@@ -63,7 +63,7 @@ template <typename T, typename S = typename std::enable_if<is_scope_enum<T>::val
 // enable_if 함수는 true가 들어오면, 뒤에 후행하는 타입으로 만들어주지만, false가 들어오면 아예 변수를 만들지 않는다.
 // 즉 뒤에있는 typename S부분에 빨간줄(오류) 가 뜬것으로 판단, 원래있던 ostream을 overloading 하므로 방문하지 않는다
 // "치환실패는 오류가 아니다" sfinane의 기법 중 하나
-//template <typename T, typename std::enable_if<is_scope_enum<T>::value, int>::type = 0> // 이렇게 해도 똑같은 결과가 나오므로 이걸권장
+//template <typename T, typename std::enable_if<is_scope_enum<T>::value, int>::type = 0(적당히 0으로 해준거)> // 이렇게 해도 똑같은 결과가 나오므로 이걸권장
 // 추구 typename S 때문에 같은 템플릿 특수화를 할때 같은거라 판단할때도 있다.
 //enable_if(BOOL, TYPE) 형으로 사용하는데 TYPE은 기본적으로 void이다. 앞에 bool이 true가 되면 TYPE을 반환한다.
 std::ostream& operator<<(std::ostream& os, const T& s)
