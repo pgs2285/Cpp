@@ -15,6 +15,18 @@ int func2(int value)
     return value;
 }
 
+template<typename T>
+auto getValue(T& t) -> decltype(t.getValue()) // t.getValue 부분에 auto를 넣으면 된다.
+{
+    return t.getValue();
+}
+
+int& testfunc()
+{
+    int a =10;
+    return a;
+}
+
 int main()
 {
     //decltype     :     타입을 컴파일 시간에 추론해준다.
@@ -58,11 +70,32 @@ int main()
         }
     }person;                             // Person 구조체 생성과 동시에, person이라는 변수를 생성한다.
 
-    decltype(person.height) num8 = 10;   // 당연히 int num8 = 10; 과 같다. 
+    decltype(person.weight) num8 = 10;   // 당연히 float num8 = 10; 과 같다. 
+    decltype(Person::weight) num9 = 10;  // 위 예시와 동일하다. 굳이 인스턴스화 할 필요는 없다. float num9 = 10; 과 같다.
+
+    decltype(auto) num10 = 30;           // auto와 decltype의 조합. auto num10 = 30; 과 같다.    
+
+    struct Wrapper0
+    {
+        int value;
+        int getValue() const{ return value; }
+    };
+    struct Wrapper1
+    {
+        float value;
+        float& getValue() { return value; } 
+    };
+
+    Wrapper0 w0{ 1 };
+    Wrapper1 w1{ 1.0f };
+ 
+    cout << getValue(w0) << endl;       // 예상한 결과 대로 1이 int형으로 나온다
+    cout << getValue(w1) << endl;       // float&이 리턴 될것 같지만 실제 auto로 추론하고 return된값은 float이다.
+                                        // 이럴때를 대비해서 auto getValue -> decltype(t.getValue()) 로 decltype을 사용해주면 된다.
+                                        // reference를 값으로 추론하던 auto와는 다르게 decltype은 reference를 그대로 유지한다.
+    getValue(w1) = 20.0f;               // 레퍼런스를 유지하기 때문에 이렇게 사용할 수 있다.
 
 
-
-    
 
     return 0;
 }
