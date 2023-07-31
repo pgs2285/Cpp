@@ -15,6 +15,18 @@ struct Func{                                    // lambda의 구조를 struct를
     }
 };
 
+struct Func2
+{
+    int value = 10;
+    auto func()
+    {
+        return [value=value]{                   // = 만 사용하면 this를 capture한다. 주소로 복사하기 때문에 MSVC등 다른 컴파일러에선 쓰레기값이 출력
+                                                // initializer capture(c++14) : value=value 와 같이 사용하면 value를 복사해서 사용한다.
+            return value;
+        };
+    }
+};
+
 
 int main()
 {
@@ -47,5 +59,25 @@ int main()
         value = 20;                             // 외부의 값이 변하진 않지만, reference로 capture했기 때문에 변경이 가능하다.
     };                                          // [&, num0] 와 같이 조합을 할 수도 있다. (num0는 value capture, 나머지는 reference capture)
     cout << value << endl;
+
+    Func2* f2 = new Func2;
+    auto func4 = f2->func();
+    delete f2;
+
+    cout << func4() << endl;
+
+                    /*          Generic Lambda          */
+    auto func5 = [](auto value)                 // c++14부터 지원하는 기능이다.
+    {
+        return value;
+    };
+    cout << func5(10) << endl;
+    cout << func5(10.1f) << endl;
+    //c++20 에서는 template또한 넣을 수 있다.
+    auto func6 = []<typename T>(T value)
+    {
+        return value;
+    };
+
     return 0;
 }

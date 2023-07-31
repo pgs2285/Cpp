@@ -123,6 +123,7 @@ int main()
     // noexcept(true)  = exception이 난다, noexcept(false) = exception이 안난다. 기본적인 함수들은 noexcept(false) 이다.
     // 만약 noexcept 를했는데 throw를 한다면 terminate를 호출한다. (try catch에 넣어줘도.)
     //noexcept(noexcept(func2)) ;; func2의 noexcept성질을 그대로 이어감
+    // noexcept를 쓴다면 except를 위한 스택확보를 하지 않아도 되므로 최적화된다.
 
     try{
         func_n(); // func_n은 noexcept가 되어있어 try안에 있지만 강제종료가 된다. 내부 &&가 가능하다
