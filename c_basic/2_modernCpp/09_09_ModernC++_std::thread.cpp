@@ -5,7 +5,49 @@
 #include <thread>
 #include <chrono>
 #include <mutex>
+#include <atomic>
+#include <queue>
 using namespace std::chrono_literals;
+
+void produce(std::mutex& m, std::condition_variable& cv, std::queue<int>& jobQueue)
+{
+    while(true)
+    {
+        std::this_thread::sleep_for(50ms);
+        {
+            std::lock_guard<std::mutex> lg(m);
+            jobQueue.push(1);
+            std::cout << "produce : " << jobQueue.size() << std::endl;
+        }
+        
+        cv.notify_one();                // 조건변수를 기다리고있는 스레드중 하나를 깨운다.
+    }
+}
+
+void longTimeJob()
+{
+    std::this_thread::sleep_for(100ms);
+}
+
+void consume(std::mutex& m, std::condition_variable& cv, std::queue<int>& jobQueue)
+{
+    while(true)
+    {
+        std::unique_lock<std::mutex> lg(m);
+        {
+            if(jobQueue.empty())
+            {
+                cv.wait(lg);                    // 조건변수가 notify되기를 기다린다.
+            }
+            if(jobQueue.empty())                //spurious wakeup : wait가 깨어나는데 조건변수가 notify되지 않았을때
+                continue;
+            int result = jobQueue.front();      // 위에서 wait를 걸어주었기 때문에, jobQueue가 비어있지 않다는것을 보장받는다.
+            jobQueue.pop();
+            std::cout << "consume : " << jobQueue.size() << std::endl;
+        }
+        longTimeJob();  
+    }
+}
 
 struct Test{
     int num;
@@ -96,28 +138,42 @@ int main()
     
     // 1.mutex : mutual exclusion, 상호배제
     std::mutex m;
+    std::timed_mutex tm;
     int num0 = 0;
-    auto func = [&m, &num0] {
+    auto func = [&m, &num0, &tm] {
         
         for(int i = 0; i < 100000; i++)
         {
-            // m.lock();                    // lock을 걸어주면, unlock까지 critical section이 된다. 즉 다른 스레드가 접근하지 못한다.
+            // m.lock();                                                // lock을 걸어주면, unlock까지 critical section이 된다. 즉 다른 스레드가 접근하지 못한다.
             
             {
-                std::lock_guard<std::mutex> lg(m);  // exception을 대처하기위해 RAII기능을 사용해주자.  = std::lock_guard
-                try{
-                    exception(num0);                  // RAII : Resource Acquisition Is Initialization (구간을 벗어나면 자동으로 해제된다.)
-                    ++num0;
-                }catch(...)
                 {
-                    
+                    std::lock_guard<std::mutex> lg(m);                  // exception을 대처하기위해 RAII기능을 사용해주자.  = std::lock_guard
+                    try{
+                        exception(num0);                                // RAII : Resource Acquisition Is Initialization (구간을 벗어나면 자동으로 해제된다.)
+                        ++num0;
+                    }catch(...)
+                    {
+                        
+                    }
                 }
-            }
-            //m.unlock();
             
-
-
+            }
         }
+        //m.unlock();
+        std::unique_lock<std::mutex> lock(m, std::try_to_lock); // try_to_lock : lock을 걸지 못하면 바로 return한다.
+        if(lock.owns_lock())                                    // 이제 if문 구간이 critical section이 된다.
+            ++num0;
+        else
+            std::cout << "Failed" << std::endl;
+
+        tm.try_lock_for(1s);                                     // 1초동안 lock을 걸지 못하면 return한다. timed_mutex의 기능
+        // 이밖에도 recursive_mutex, shared_mutex 등이 있다.
+        // recursive_mutex는 같은 스레드가 여러번 lock을 걸어도 괜찮다. (ex) goo, foo 모두 같은 뮤텍스를 사용하고, goo가 foo를 호출한다면
+        // (shared_mutex는 여러개의 스레드가 읽기만 가능하고, 쓰기는 하나의 스레드만 가능하다.)
+
+
+        
         
     };
 
@@ -130,5 +186,30 @@ int main()
     std::cout << num0 << std::endl;         // 정상적으로 2000000이 출력된다. 다만 exception이 많이나서 출력이 느리다...
                                             // critical section에서 exception이 발생하면 unlock이 되지 않아서 데드락이 발생할 수 있다.
                                             // 이럴때 RAII기능을 사용해주자.  = std::lock_guard
-    
+
+    // 만약 변수하나에서만 race condition이 발생한다면 atomic을 사용해주자.
+    std::atomic_int num1 = 0;
+    std::thread th6([&num1](){
+        for(int i = 0; i < 100000; ++i)
+            ++num1;
+    });
+    for(int i = 0; i < 100000; ++i)
+        ++num1;
+    th6.join();
+    std::cout << num1 << std::endl;         // 정상적으로 200000이 출력된다.
+
+
+    std::mutex m1;
+    std::queue<int> jobQueue;
+    std::condition_variable cv;             // 조건변수는 wait와 notify로 이루어져있다. wait는 조건변수가 notify되기를 기다린다.
+                                            // notify는 조건변수를 기다리고있는 스레드(즉 wait를 걸어놓은 스레드)중 하나를 깨운다.
+                                            // notify_all은 조건변수를 기다리고있는 모든 스레드를 깨운다. 
+
+    std::thread th7(produce, std::ref(m1), std::ref(cv), std::ref(jobQueue)); // ref는 reference_wrapper를 만들어주는 함수이다. 
+    std::thread th8(consume, std::ref(m1), std::ref(cv), std::ref(jobQueue));
+    // std::thread th9(consume, std::ref(m1), std::ref(cv), std::ref(jobQueue));
+
+    th7.join();
+    th8.join();
+    // th9.join();
 }
