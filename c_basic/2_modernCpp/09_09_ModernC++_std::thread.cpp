@@ -21,6 +21,7 @@ void produce(std::mutex& m, std::condition_variable& cv, std::queue<int>& jobQue
         }
         
         cv.notify_one();                // 조건변수를 기다리고있는 스레드중 하나를 깨운다.
+                                        // notify는 정확히는 wait 내부의 조건을 다시 검사하게 만들고, 그 조건이 맞으면 깨운다.
     }
 }
 

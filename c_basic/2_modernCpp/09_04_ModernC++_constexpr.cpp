@@ -23,7 +23,7 @@ struct Item
 template <typename T>
 auto getValue(T t)
 {
-    if (std::is_pointer<T>())                   //constexpr을 붙이지 않으면 컴파일 에러가 발생한다.
+    if constexpr (std::is_pointer<T>())         //constexpr을 붙이지 않으면 컴파일 에러가 발생한다.
                                                 //그이유는 템플릿은 컴파일 타임에 .구체화를 할때 컴파일 단계에서 if문 내부조건을 수행하는데, 이때 Int형은 pointer가 아니므로 오류가 발생한다.
                                                 //즉 is_pointer<T>()가 컴파일 타임에 평가되어야 하는데, constexpr이 없다면 인자가 들어올때 런타임에 판독되므로 constexpr을 붙여줘야 한다.
         return *t;
