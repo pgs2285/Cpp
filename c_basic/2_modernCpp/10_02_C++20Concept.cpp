@@ -21,7 +21,21 @@ void swap(T& a, T& b)
     b = tmp;
 }
 
+enum class Type{
+    A,B,C
+};
 
+template<typename T>
+struct is_scoped_enum
+{
+    static const bool value = std::is_enum_v<T> && !std::is_convertible_v<T, int>; // Scoped enum 은 int로 변환가능하지 않다. (즉, int로 변환가능하면 Scoped enum이 아니다.)
+};
+
+template<typename T, typename std::enable_if<is_scoped_enum<T>::value, int>::type = 0>  
+std::ostream& operator<<(std::ostream& os, const T& t)
+{
+    return std::cout<<static_cast<std::underlying_type_t<T>>(t);    //underlying type : enum class의 타입을 반환하는 기능
+}
 
 int main()
 {
@@ -30,6 +44,8 @@ int main()
     std::cout << a << " " << b << std::endl;
     int* px = &a, * py = &b;
     // swap(px, py); // T : int* -> static_assert 에 의해 컴파일 에러 발생
+    std::cout << Type::A <<std::endl;
+
     
     return 0;
 }
