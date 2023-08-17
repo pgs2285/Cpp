@@ -1,0 +1,20 @@
+# ninja log v5
+0	370	1692253100034728521	MatchThreePuzzle_autogen/timestamp	3192826be3bcb675
+0	370	1692253100034728521	MatchThreePuzzle_autogen/mocs_compilation.cpp	3192826be3bcb675
+0	370	1692253100034728521	/Users/bagjiseong/Desktop/c++/c_basic/c_basic/C++Match3Game/build-MatchThreePuzzle-Desktop_arm_darwin_generic_mach_o_64bit-Debug/MatchThreePuzzle_autogen/timestamp	3192826be3bcb675
+0	370	1692253100034728521	/Users/bagjiseong/Desktop/c++/c_basic/c_basic/C++Match3Game/build-MatchThreePuzzle-Desktop_arm_darwin_generic_mach_o_64bit-Debug/MatchThreePuzzle_autogen/mocs_compilation.cpp	3192826be3bcb675
+370	499	1692253100153967123	CMakeFiles/MatchThreePuzzle.dir/MatchThreePuzzle_autogen/mocs_compilation.cpp.o	c1811fe182586d1c
+371	2588	1692253102255907211	CMakeFiles/MatchThreePuzzle.dir/main.cpp.o	dced5ededa06e0cb
+2590	2847	1692253102523602022	MatchThreePuzzle.app/Contents/MacOS/MatchThreePuzzle	f52180648a7915b3
+6	56	1692253386633437622	MatchThreePuzzle_autogen/timestamp	3192826be3bcb675
+6	56	1692253386633437622	MatchThreePuzzle_autogen/mocs_compilation.cpp	3192826be3bcb675
+6	56	1692253386633437622	/Users/bagjiseong/Desktop/c++/c_basic/c_basic/C++Match3Game/build-MatchThreePuzzle-Desktop_arm_darwin_generic_mach_o_64bit-Debug/MatchThreePuzzle_autogen/timestamp	3192826be3bcb675
+6	56	1692253386633437622	/Users/bagjiseong/Desktop/c++/c_basic/c_basic/C++Match3Game/build-MatchThreePuzzle-Desktop_arm_darwin_generic_mach_o_64bit-Debug/MatchThreePuzzle_autogen/mocs_compilation.cpp	3192826be3bcb675
+57	2384	1692253388952108554	CMakeFiles/MatchThreePuzzle.dir/main.cpp.o	dced5ededa06e0cb
+2385	2589	1692253389164030079	MatchThreePuzzle.app/Contents/MacOS/MatchThreePuzzle	f52180648a7915b3
+5	54	1692253509627336586	MatchThreePuzzle_autogen/timestamp	3192826be3bcb675
+5	54	1692253509627336586	MatchThreePuzzle_autogen/mocs_compilation.cpp	3192826be3bcb675
+5	54	1692253509627336586	/Users/bagjiseong/Desktop/c++/c_basic/c_basic/C++Match3Game/build-MatchThreePuzzle-Desktop_arm_darwin_generic_mach_o_64bit-Debug/MatchThreePuzzle_autogen/timestamp	3192826be3bcb675
+5	54	1692253509627336586	/Users/bagjiseong/Desktop/c++/c_basic/c_basic/C++Match3Game/build-MatchThreePuzzle-Desktop_arm_darwin_generic_mach_o_64bit-Debug/MatchThreePuzzle_autogen/mocs_compilation.cpp	3192826be3bcb675
+55	2611	1692253512171282507	CMakeFiles/MatchThreePuzzle.dir/main.cpp.o	dced5ededa06e0cb
+2611	2851	1692253512422985302	MatchThreePuzzle.app/Contents/MacOS/MatchThreePuzzle	f52180648a7915b3

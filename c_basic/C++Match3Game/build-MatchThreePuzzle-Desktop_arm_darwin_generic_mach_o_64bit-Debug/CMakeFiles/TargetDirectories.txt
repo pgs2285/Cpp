@@ -1,0 +1,9 @@
+/Users/bagjiseong/Desktop/c++/c_basic/c_basic/C++Match3Game/build-MatchThreePuzzle-Desktop_arm_darwin_generic_mach_o_64bit-Debug/CMakeFiles/MatchThreePuzzle.dir
+/Users/bagjiseong/Desktop/c++/c_basic/c_basic/C++Match3Game/build-MatchThreePuzzle-Desktop_arm_darwin_generic_mach_o_64bit-Debug/CMakeFiles/edit_cache.dir
+/Users/bagjiseong/Desktop/c++/c_basic/c_basic/C++Match3Game/build-MatchThreePuzzle-Desktop_arm_darwin_generic_mach_o_64bit-Debug/CMakeFiles/rebuild_cache.dir
+/Users/bagjiseong/Desktop/c++/c_basic/c_basic/C++Match3Game/build-MatchThreePuzzle-Desktop_arm_darwin_generic_mach_o_64bit-Debug/CMakeFiles/list_install_components.dir
+/Users/bagjiseong/Desktop/c++/c_basic/c_basic/C++Match3Game/build-MatchThreePuzzle-Desktop_arm_darwin_generic_mach_o_64bit-Debug/CMakeFiles/install.dir
+/Users/bagjiseong/Desktop/c++/c_basic/c_basic/C++Match3Game/build-MatchThreePuzzle-Desktop_arm_darwin_generic_mach_o_64bit-Debug/CMakeFiles/install/local.dir
+/Users/bagjiseong/Desktop/c++/c_basic/c_basic/C++Match3Game/build-MatchThreePuzzle-Desktop_arm_darwin_generic_mach_o_64bit-Debug/CMakeFiles/install/strip.dir
+/Users/bagjiseong/Desktop/c++/c_basic/c_basic/C++Match3Game/build-MatchThreePuzzle-Desktop_arm_darwin_generic_mach_o_64bit-Debug/CMakeFiles/MatchThreePuzzle_autogen_timestamp_deps.dir
+/Users/bagjiseong/Desktop/c++/c_basic/c_basic/C++Match3Game/build-MatchThreePuzzle-Desktop_arm_darwin_generic_mach_o_64bit-Debug/CMakeFiles/MatchThreePuzzle_autogen.dir

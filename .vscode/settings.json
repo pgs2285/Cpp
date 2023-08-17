@@ -78,6 +78,9 @@
         "stack": "cpp",
         "execution": "cpp",
         "thread": "cpp",
-        "queue": "cpp"
-    }
+        "queue": "cpp",
+        "qapplication": "cpp"
+    },
+    "cmake.sourceDirectory": "/Users/bagjiseong/Desktop/c++/c_basic/c_basic/C++Match3Game/MatchThreePuzzle",
+    "cmake.cmakePath": "/opt/homebrew/bin/cmake",
 }
