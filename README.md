@@ -6,7 +6,7 @@ Cpp
 0. c_basic 폴더에 있음
 1. 1_DataBasic C++의 기초
 2. 2_modernCpp ModernC++ 
-3. C++Match3Game - 애니팡과 같은 Match3Game을 제작해보기
+3. C++Match3Game[ - 애니팡과 같은 Match3Game을 제작해보기](https://github.com/pgs2285/Cpp_MatchThreePuzzle_Qt)
 
 ## 보완 
 C++20 이후로 추가된 spaceship operator은 c++20 을 자세히 알아볼때 다시 학습예정.
