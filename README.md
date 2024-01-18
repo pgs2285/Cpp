@@ -3,6 +3,7 @@ Cpp
 ## Unreal, DirectX 를 위한 CPP 연습
 
 ### 학습한 내용은 cpp파일에 주석으로 정리
+0. c_basic 폴더에 있음
 1. 1_DataBasic C++의 기초
 2. 2_modernCpp ModernC++ 
 3. C++Match3Game - 애니팡과 같은 Match3Game을 제작해보기
